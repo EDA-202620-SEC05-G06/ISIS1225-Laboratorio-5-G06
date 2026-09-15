@@ -366,3 +366,80 @@ def default_sort_criteria(elemento_1, elemento_2):
     if elemento_1 < elemento_2:
         esta_ordenado = True
     return esta_ordenado
+
+
+def selection_sort(mi_lista, funcion_criterio):
+    """ Ordena la lista usando el algoritmo de selección (Selection Sort).
+
+        :param mi_lista: La lista a ordenar.
+        :type mi_lista: dict
+        :param funcion_criterio: Función de comparación. Retorna True si
+            el primer elemento debe ir antes que el segundo.
+        :type funcion_criterio: function
+
+        :returns: La lista ordenada.
+        :rtype: dict
+    """
+    tam_lista = size(mi_lista)
+    for indice in range(tam_lista - 1):
+        posicion_minimo = indice
+        siguiente = indice + 1
+        while siguiente < tam_lista:
+            if not funcion_criterio(get_element(mi_lista, posicion_minimo),
+                                    get_element(mi_lista, siguiente)):
+                posicion_minimo = siguiente
+            siguiente += 1
+        if posicion_minimo != indice:
+            exchange(mi_lista, indice, posicion_minimo)
+    return mi_lista
+
+
+def insertion_sort(mi_lista, funcion_criterio):
+    """ Ordena la lista usando el algoritmo de inserción (Insertion Sort).
+
+        :param mi_lista: La lista a ordenar.
+        :type mi_lista: dict
+        :param funcion_criterio: Función de comparación. Retorna True si
+            el primer elemento debe ir antes que el segundo.
+        :type funcion_criterio: function
+
+        :returns: La lista ordenada.
+        :rtype: dict
+    """
+    tam_lista = size(mi_lista)
+    for indice in range(1, tam_lista):
+        posicion = indice
+        while posicion > 0 and not funcion_criterio(
+                get_element(mi_lista, posicion - 1),
+                get_element(mi_lista, posicion)):
+            exchange(mi_lista, posicion, posicion - 1)
+            posicion -= 1
+    return mi_lista
+
+
+def shell_sort(mi_lista, funcion_criterio):
+    """ Ordena la lista usando el algoritmo de Shell (Shell Sort).
+
+        :param mi_lista: La lista a ordenar.
+        :type mi_lista: dict
+        :param funcion_criterio: Función de comparación. Retorna True si
+            el primer elemento debe ir antes que el segundo.
+        :type funcion_criterio: function
+
+        :returns: La lista ordenada.
+        :rtype: dict
+    """
+    tam_lista = size(mi_lista)
+    brecha = 1
+    while brecha < tam_lista // 3:
+        brecha = 3 * brecha + 1
+    while brecha >= 1:
+        for indice in range(brecha, tam_lista):
+            posicion = indice
+            while posicion >= brecha and not funcion_criterio(
+                    get_element(mi_lista, posicion - brecha),
+                    get_element(mi_lista, posicion)):
+                exchange(mi_lista, posicion, posicion - brecha)
+                posicion -= brecha
+        brecha //= 3
+    return mi_lista
