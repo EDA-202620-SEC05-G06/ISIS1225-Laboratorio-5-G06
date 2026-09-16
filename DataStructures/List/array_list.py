@@ -372,3 +372,70 @@ def shell_sort(mi_lista, funcion_criterio):
                 posicion -= brecha
         brecha //= 3
     return mi_lista
+
+
+def merge_sort(mi_lista, funcion_criterio):
+    """ Ordena la lista usando el algoritmo de mezcla (Merge Sort).
+
+        :param mi_lista: La lista a ordenar.
+        :type mi_lista: dict
+        :param funcion_criterio: Función de comparación. Retorna True si
+            el primer elemento debe ir antes que el segundo.
+        :type funcion_criterio: function
+
+        :returns: La lista ordenada.
+        :rtype: dict
+    """
+    tam_lista = size(mi_lista)
+    if tam_lista > 1:
+        mitad = tam_lista // 2
+        lista_izquierda = sub_list(mi_lista, 0, mitad)
+        lista_derecha = sub_list(mi_lista, mitad, tam_lista - mitad)
+        merge_sort(lista_izquierda, funcion_criterio)
+        merge_sort(lista_derecha, funcion_criterio)
+        mezclar(mi_lista, lista_izquierda, lista_derecha, funcion_criterio)
+    return mi_lista
+
+
+def mezclar(mi_lista, lista_izquierda, lista_derecha, funcion_criterio):
+    """ Mezcla dos listas ordenadas en mi_lista, dejándola ordenada.
+
+        :param mi_lista: La lista destino, donde se guarda la mezcla.
+        :type mi_lista: dict
+        :param lista_izquierda: La mitad izquierda, ya ordenada.
+        :type lista_izquierda: dict
+        :param lista_derecha: La mitad derecha, ya ordenada.
+        :type lista_derecha: dict
+        :param funcion_criterio: Función de comparación. Retorna True si
+            el primer elemento debe ir antes que el segundo.
+        :type funcion_criterio: function
+
+        :returns: La lista mi_lista con la mezcla ordenada.
+        :rtype: dict
+    """
+    tam_izquierda = size(lista_izquierda)
+    tam_derecha = size(lista_derecha)
+    indice_izquierda = 0
+    indice_derecha = 0
+    indice_mi_lista = 0
+    while indice_izquierda < tam_izquierda and indice_derecha < tam_derecha:
+        elemento_izquierda = get_element(lista_izquierda, indice_izquierda)
+        elemento_derecha = get_element(lista_derecha, indice_derecha)
+        if funcion_criterio(elemento_izquierda, elemento_derecha):
+            change_info(mi_lista, indice_mi_lista, elemento_izquierda)
+            indice_izquierda += 1
+        else:
+            change_info(mi_lista, indice_mi_lista, elemento_derecha)
+            indice_derecha += 1
+        indice_mi_lista += 1
+    while indice_izquierda < tam_izquierda:
+        change_info(mi_lista, indice_mi_lista,
+                    get_element(lista_izquierda, indice_izquierda))
+        indice_izquierda += 1
+        indice_mi_lista += 1
+    while indice_derecha < tam_derecha:
+        change_info(mi_lista, indice_mi_lista,
+                    get_element(lista_derecha, indice_derecha))
+        indice_derecha += 1
+        indice_mi_lista += 1
+    return mi_lista
