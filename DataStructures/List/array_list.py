@@ -375,17 +375,6 @@ def shell_sort(mi_lista, funcion_criterio):
 
 
 def merge_sort(mi_lista, funcion_criterio):
-    """ Ordena la lista usando el algoritmo de mezcla (Merge Sort).
-
-        :param mi_lista: La lista a ordenar.
-        :type mi_lista: dict
-        :param funcion_criterio: Función de comparación. Retorna True si
-            el primer elemento debe ir antes que el segundo.
-        :type funcion_criterio: function
-
-        :returns: La lista ordenada.
-        :rtype: dict
-    """
     tam_lista = size(mi_lista)
     if tam_lista > 1:
         mitad = tam_lista // 2
@@ -398,21 +387,6 @@ def merge_sort(mi_lista, funcion_criterio):
 
 
 def mezclar(mi_lista, lista_izquierda, lista_derecha, funcion_criterio):
-    """ Mezcla dos listas ordenadas en mi_lista, dejándola ordenada.
-
-        :param mi_lista: La lista destino, donde se guarda la mezcla.
-        :type mi_lista: dict
-        :param lista_izquierda: La mitad izquierda, ya ordenada.
-        :type lista_izquierda: dict
-        :param lista_derecha: La mitad derecha, ya ordenada.
-        :type lista_derecha: dict
-        :param funcion_criterio: Función de comparación. Retorna True si
-            el primer elemento debe ir antes que el segundo.
-        :type funcion_criterio: function
-
-        :returns: La lista mi_lista con la mezcla ordenada.
-        :rtype: dict
-    """
     tam_izquierda = size(lista_izquierda)
     tam_derecha = size(lista_derecha)
     indice_izquierda = 0
@@ -438,4 +412,32 @@ def mezclar(mi_lista, lista_izquierda, lista_derecha, funcion_criterio):
                     get_element(lista_derecha, indice_derecha))
         indice_derecha += 1
         indice_mi_lista += 1
+    return mi_lista
+
+
+def quick_sort(mi_lista, funcion_criterio):
+    tam_lista = size(mi_lista)
+    if tam_lista > 1:
+        posicion_pivote = tam_lista // 2
+        pivote = get_element(mi_lista, posicion_pivote)
+        menores = new_list()
+        mayores = new_list()
+        for indice in range(tam_lista):
+            if indice != posicion_pivote:
+                elemento = get_element(mi_lista, indice)
+                if funcion_criterio(elemento, pivote):
+                    add_last(menores, elemento)
+                else:
+                    add_last(mayores, elemento)
+        quick_sort(menores, funcion_criterio)
+        quick_sort(mayores, funcion_criterio)
+        indice_mi_lista = 0
+        for indice in range(size(menores)):
+            change_info(mi_lista, indice_mi_lista, get_element(menores, indice))
+            indice_mi_lista += 1
+        change_info(mi_lista, indice_mi_lista, pivote)
+        indice_mi_lista += 1
+        for indice in range(size(mayores)):
+            change_info(mi_lista, indice_mi_lista, get_element(mayores, indice))
+            indice_mi_lista += 1
     return mi_lista
