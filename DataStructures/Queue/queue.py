@@ -2,28 +2,28 @@ from DataStructures.List import single_linked_list as lt
 
 
 def new_queue():
-    queue = lt.new_list()
-    return queue
+    cola = lt.new_list()
+    return cola
 
 
-def enqueue(my_queue, element):
-    lt.add_last(my_queue, element)
-    return my_queue
+def enqueue(cola, elem):
+    lt.add_last(cola, elem)
+    return cola
 
 
-def dequeue(my_queue):
-    element = lt.remove_first(my_queue)
-    return element
+def dequeue(cola):
+    elem = lt.remove_first(cola)
+    return elem
 
 
-def peek(my_queue):
-    element = lt.first_element(my_queue)
-    return element
+def peek(cola):
+    elem = lt.first_element(cola)
+    return elem
 
 
-def is_empty(my_queue):
-    return lt.is_empty(my_queue)
+def is_empty(cola):
+    return lt.is_empty(cola)
 
 
-def size(my_queue):
-    return lt.size(my_queue)
+def size(cola):
+    return lt.size(cola)

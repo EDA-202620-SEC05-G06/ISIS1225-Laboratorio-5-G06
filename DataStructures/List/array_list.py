@@ -374,70 +374,68 @@ def shell_sort(mi_lista, funcion_criterio):
     return mi_lista
 
 
-def merge_sort(mi_lista, funcion_criterio):
-    tam_lista = size(mi_lista)
-    if tam_lista > 1:
-        mitad = tam_lista // 2
-        lista_izquierda = sub_list(mi_lista, 0, mitad)
-        lista_derecha = sub_list(mi_lista, mitad, tam_lista - mitad)
-        merge_sort(lista_izquierda, funcion_criterio)
-        merge_sort(lista_derecha, funcion_criterio)
-        mezclar(mi_lista, lista_izquierda, lista_derecha, funcion_criterio)
-    return mi_lista
+def merge_sort(lista, crit):
+    tam = size(lista)
+    if tam > 1:
+        mitad = tam // 2
+        izq = sub_list(lista, 0, mitad)
+        der = sub_list(lista, mitad, tam - mitad)
+        merge_sort(izq, crit)
+        merge_sort(der, crit)
+        mezclar(lista, izq, der, crit)
+    return lista
 
 
-def mezclar(mi_lista, lista_izquierda, lista_derecha, funcion_criterio):
-    tam_izquierda = size(lista_izquierda)
-    tam_derecha = size(lista_derecha)
-    indice_izquierda = 0
-    indice_derecha = 0
-    indice_mi_lista = 0
-    while indice_izquierda < tam_izquierda and indice_derecha < tam_derecha:
-        elemento_izquierda = get_element(lista_izquierda, indice_izquierda)
-        elemento_derecha = get_element(lista_derecha, indice_derecha)
-        if funcion_criterio(elemento_izquierda, elemento_derecha):
-            change_info(mi_lista, indice_mi_lista, elemento_izquierda)
-            indice_izquierda += 1
+def mezclar(lista, izq, der, crit):
+    t_izq = size(izq)
+    t_der = size(der)
+    i_izq = 0
+    i_der = 0
+    i_res = 0
+    while i_izq < t_izq and i_der < t_der:
+        e_izq = get_element(izq, i_izq)
+        e_der = get_element(der, i_der)
+        if crit(e_izq, e_der):
+            change_info(lista, i_res, e_izq)
+            i_izq += 1
         else:
-            change_info(mi_lista, indice_mi_lista, elemento_derecha)
-            indice_derecha += 1
-        indice_mi_lista += 1
-    while indice_izquierda < tam_izquierda:
-        change_info(mi_lista, indice_mi_lista,
-                    get_element(lista_izquierda, indice_izquierda))
-        indice_izquierda += 1
-        indice_mi_lista += 1
-    while indice_derecha < tam_derecha:
-        change_info(mi_lista, indice_mi_lista,
-                    get_element(lista_derecha, indice_derecha))
-        indice_derecha += 1
-        indice_mi_lista += 1
-    return mi_lista
+            change_info(lista, i_res, e_der)
+            i_der += 1
+        i_res += 1
+    while i_izq < t_izq:
+        change_info(lista, i_res, get_element(izq, i_izq))
+        i_izq += 1
+        i_res += 1
+    while i_der < t_der:
+        change_info(lista, i_res, get_element(der, i_der))
+        i_der += 1
+        i_res += 1
+    return lista
 
 
-def quick_sort(mi_lista, funcion_criterio):
-    tam_lista = size(mi_lista)
-    if tam_lista > 1:
-        posicion_pivote = tam_lista // 2
-        pivote = get_element(mi_lista, posicion_pivote)
-        menores = new_list()
-        mayores = new_list()
-        for indice in range(tam_lista):
-            if indice != posicion_pivote:
-                elemento = get_element(mi_lista, indice)
-                if funcion_criterio(elemento, pivote):
-                    add_last(menores, elemento)
+def quick_sort(lista, crit):
+    tam = size(lista)
+    if tam > 1:
+        p_piv = tam // 2
+        piv = get_element(lista, p_piv)
+        men = new_list()
+        may = new_list()
+        for idx in range(tam):
+            if idx != p_piv:
+                elem = get_element(lista, idx)
+                if crit(elem, piv):
+                    add_last(men, elem)
                 else:
-                    add_last(mayores, elemento)
-        quick_sort(menores, funcion_criterio)
-        quick_sort(mayores, funcion_criterio)
-        indice_mi_lista = 0
-        for indice in range(size(menores)):
-            change_info(mi_lista, indice_mi_lista, get_element(menores, indice))
-            indice_mi_lista += 1
-        change_info(mi_lista, indice_mi_lista, pivote)
-        indice_mi_lista += 1
-        for indice in range(size(mayores)):
-            change_info(mi_lista, indice_mi_lista, get_element(mayores, indice))
-            indice_mi_lista += 1
-    return mi_lista
+                    add_last(may, elem)
+        quick_sort(men, crit)
+        quick_sort(may, crit)
+        i_res = 0
+        for idx in range(size(men)):
+            change_info(lista, i_res, get_element(men, idx))
+            i_res += 1
+        change_info(lista, i_res, piv)
+        i_res += 1
+        for idx in range(size(may)):
+            change_info(lista, i_res, get_element(may, idx))
+            i_res += 1
+    return lista

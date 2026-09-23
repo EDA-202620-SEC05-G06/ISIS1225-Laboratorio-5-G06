@@ -2,28 +2,28 @@ from DataStructures.List import single_linked_list as lt
 
 
 def new_stack():
-    stack = lt.new_list()
-    return stack
+    pila = lt.new_list()
+    return pila
 
 
-def push(my_stack, element):
-    lt.add_last(my_stack, element)
-    return my_stack
+def push(pila, elem):
+    lt.add_last(pila, elem)
+    return pila
 
 
-def pop(my_stack):
-    element = lt.remove_last(my_stack)
-    return element
+def pop(pila):
+    elem = lt.remove_last(pila)
+    return elem
 
 
-def is_empty(my_stack):
-    return lt.is_empty(my_stack)
+def is_empty(pila):
+    return lt.is_empty(pila)
 
 
-def top(my_stack):
-    element = lt.last_element(my_stack)
-    return element
+def top(pila):
+    elem = lt.last_element(pila)
+    return elem
 
 
-def size(my_stack):
-    return lt.size(my_stack)
+def size(pila):
+    return lt.size(pila)
